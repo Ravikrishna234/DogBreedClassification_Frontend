@@ -12,11 +12,14 @@ function ImageUpload() {
     if (enteredFilename == null) {
       setError({
         title: "Invalid Selection",
-        message: "Please select a valid file (type = image)"
+        message: "Please select a valid file (type = image)",
       });
       return;
     }
+    // let
+
     console.log(enteredFilename);
+    console.log(process.env.SERVER_URL);
   }
   function removeErrorHandler() {
     setError(null);
