@@ -1,14 +1,18 @@
 import React, { useState } from "react";
+import { UploadFiles } from "../api/UploadFiles";
 import Content from "../UI/Content";
 import Button from "../UI/Button";
 import ErrorModal from "../UI/ErrorModal";
 import classes from "./ImageUpload.module.css";
 function ImageUpload() {
   const [enteredFilename, setEnteredFilename] = useState(null);
+  const [result, setResult] = useState({});
   const [error, setError] = useState();
 
   function addImageUpload(event) {
     event.preventDefault();
+    // To retrieve from Tree
+    // console.log(event.currentTarget["img_file"].files[0]);
     if (enteredFilename == null) {
       setError({
         title: "Invalid Selection",
@@ -16,10 +20,12 @@ function ImageUpload() {
       });
       return;
     }
-    // let
 
+    const formData = new FormData();
+    formData.append("file", enteredFilename);
+    console.log(formData);
+    UploadFiles(formData).then(setResult);
     console.log(enteredFilename);
-    console.log(process.env.SERVER_URL);
   }
   function removeErrorHandler() {
     setError(null);
@@ -39,6 +45,7 @@ function ImageUpload() {
             <label htmlFor="localimage">Upload an Local Image</label>
             <button className={classes.btn}>Upload a file</button>
             <input
+              id="img_file"
               type="file"
               name="myfile"
               accept="image/png, image/gif, image/jpeg"
